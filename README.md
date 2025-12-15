@@ -98,3 +98,72 @@ Presenter - презентер содержит основную логику п
 `emit<T extends object>(event: string, data?: T): void` - инициализация события. При вызове события в метод передается название события и объект с данными, который будет использован как аргумент для вызова обработчика.  
 `trigger<T extends object>(event: string, context?: Partial<T>): (data: T) => void` - возвращает функцию, при вызове которой инициализируется требуемое в параметрах событие с передачей в него данных из второго параметра.
 
+### Данные
+#### Интерфейс IProduct (товар в приложении)
+interface IProduct {
+  id: string;
+  description: string;
+  image: string;
+  title: string;
+  category: string;
+  price: number | null;
+}
+
+#### Интерфейс IBuyer (данные пользователя)
+interface IBuyer {
+  payment: TPayment;
+  email: string;
+  phone: string;
+  address: string;
+} 
+
+#### Способ оплаты
+type TPayment = 'online' | 'cash'; // Тип оплаты
+
+
+### Модели данных
+#### Класс ProductCatalog (Каталог товаров)
+Хранит массив всех товаров. Хранит товар, выбранный для подробного отображения.
+Конструктор не принимает параметров.
+• Поля класса:
+private items: IProduct[] - массив, содержащий все товары каталога.
+private previewItem: IProduct | null - выбранный товар.
+• Методы:
+setItems(items: IProduct[]): void - сохранение массива товаров полученного в параметрах метода;
+getItems(): IProduct[] - получение массива товаров из модели;
+getItemById(id: string): IProduct | undefined - получение одного товара по его id;
+setPreviewItem(item: IProduct): void - сохранение товара для подробного отображения;
+getPreviewItem(): IProduct | null - получение товара для подробного отображения.
+
+#### Класс Cart (Корзина)
+Хранит ранит массив товаров, выбранных покупателем для покупки.
+Конструктор не принимает параметров.
+• Поля класса:
+private items: IProduct[] - массив, содержащий все товары в корзине.
+• Методы:
+getItems(): IProduct[] - получение массива товаров, которые находятся в корзине;
+addItem(item: IProduct): void - добавление товара, который был получен в параметре, в массив корзины;
+removeItem(item: IProduct): void - удаление товара, полученного в параметре из массива корзины;
+clear(): void - очистка корзины;
+getTotalCost(): number - получение стоимости всех товаров в корзине;
+getTotalCount(): number - получение количества всех товаров в корзине;
+isItemInCart(id: string): boolean - проверка наличия товара в корзине по его id, полученного в параметр метода.
+
+#### Класс Buyer (Покупатель)
+Хранит вид оплаты, адрес, телефон и email покупателя.
+Конструктор: constructor(data?: Partial<IBuyer>) - частично заполненные (опциональные) данные покупателя
+• Поля класса:
+private payment: TPayment | null - вид оплаты
+private email: string - email покупателя
+private phone: string - номер телефона покупателя
+private address: string - адрес доставки
+
+• Методы:
+setData(data: Partial<IBuyer>): void - сохранение данных в модели;
+getData(): IBuyer - получение всех данных покупателя;
+clear(): void - очистка данных покупателя;
+validate(): Partial<Record<keyof IBuyer, string>> - валидация данных. Возвращаемое значение: объект, где ключи - названия полей с ошибками, значения - тексты ошибок.
+{
+  payment: 'Не выбран способ оплаты',
+  email: 'Укажите email',payment: 'Не выбран вид оплаты',
+}
