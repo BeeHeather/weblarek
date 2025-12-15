@@ -24,6 +24,8 @@ export interface IBuyer {
   address: string;
 }
 
+export type BuyerValidationErrors = Partial<Record<keyof IBuyer, string>>;
+
 export type TPayment = "online" | "cash" | null;
 
 export interface IOrderResponse {
