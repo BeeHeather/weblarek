@@ -170,6 +170,6 @@ address: string;
 ```
 {
 payment: 'Не выбран способ оплаты',
-email: 'Укажите email',payment: 'Не выбран вид оплаты',
+email: 'Укажите email',
 }
 ```
