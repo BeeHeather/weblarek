@@ -1,30 +1,37 @@
 import { IBuyer, BuyerValidationErrors, TPayment } from "../../types";
+import { EventEmitter } from "../base/Events";
 
 export class Buyer {
   private payment: TPayment | null;
   private email: string;
   private phone: string;
   private address: string;
+  protected events: EventEmitter;
 
-  constructor() {
+  constructor(events: EventEmitter) {
     this.payment = null;
     this.email = "";
     this.phone = "";
     this.address = "";
+    this.events = events;
   }
 
   setData(data: Partial<IBuyer>): void {
     if (data.payment !== undefined) {
       this.payment = data.payment;
+      this.events.emit('buyer:changed', this.getData());
     }
     if (data.email !== undefined) {
       this.email = data.email;
+      this.events.emit('buyer:changed', this.getData());
     }
     if (data.phone !== undefined) {
       this.phone = data.phone;
+      this.events.emit('buyer:changed', this.getData());
     }
     if (data.address !== undefined) {
       this.address = data.address;
+      this.events.emit('buyer:changed', this.getData());
     }
   }
 
@@ -42,6 +49,7 @@ export class Buyer {
     this.email = "";
     this.phone = "";
     this.address = "";
+    this.events.emit('buyer:changed', this.getData());
   }
 
   validate(): BuyerValidationErrors {

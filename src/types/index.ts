@@ -33,11 +33,7 @@ export interface IOrderResponse {
     status: string; 
 }
 
-export interface IOrder {
-    payment: TPayment;
-    email: string;
-    phone: string;
-    address: string;
-    total: number;
-    items: string[];
-}
+export interface IOrder extends IBuyer{
+    total: number; 
+    items: string[]; 
+} 
