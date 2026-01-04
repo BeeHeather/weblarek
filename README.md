@@ -279,7 +279,6 @@ email: 'Укажите email',
 `errorsContainer` - контейнер для отображения ошибок
 Методы:
 `set errors(value: Record<string, string>)` - отображает ошибки валидации
-`clearErrors(): void` - очищает отображение ошибок
 `set valid(value: boolean)` - активирует/деактивирует кнопку отправки
 
 #### Класс OrderForm

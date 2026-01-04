@@ -3,11 +3,12 @@ import { IProduct } from "../../../types";
 import { ensureElement } from "../../../utils/utils.ts";
 import { categoryMap } from "../../../utils/constants.ts";
 
+export type TCatalogCard = Pick<IProduct, 'image' | 'category'>;
 export interface ICardActions {
   onClick: (event: MouseEvent) => void;
 }
 
-export class CatalogCard extends Card<IProduct> {
+export class CatalogCard extends Card<TCatalogCard> {
   protected cardCategory: HTMLElement;
   protected cardImage: HTMLImageElement;
 
@@ -41,23 +42,5 @@ export class CatalogCard extends Card<IProduct> {
 
   set image(value: string) {
     this.cardImage.src = value;
-  }
-
-  render(data?: Partial<IProduct>): HTMLElement {
-    if (data) {
-      if (data.title !== undefined) {
-        this.title = data.title;
-      }
-      if (data.price !== undefined) {
-        this.price = data.price;
-      }
-      if (data.category !== undefined) {
-        this.category = data.category;
-      }
-      if (data.image !== undefined) {
-        this.image = data.image;
-      }
-    }
-    return this.container;
   }
 }

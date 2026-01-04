@@ -9,6 +9,7 @@ interface IModal {
 export class Modal extends Component<IModal> {
   protected modalContent: HTMLElement;
   protected closeButton: HTMLButtonElement;
+  private escapeHandle: (event: KeyboardEvent) => void;
 
   constructor(protected events: IEvents, container: HTMLElement) {
     super(container);
@@ -34,12 +35,12 @@ export class Modal extends Component<IModal> {
     });
 
     // Закрытие по escape
-    document.addEventListener("keydown", (event) => {
+    this.escapeHandle = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         this.close();
-        events.emit("modal:close");
+        this.events.emit("modal:close");
       }
-    });
+    };
   }
 
   render(data?: IModal): HTMLElement {
@@ -51,9 +52,11 @@ export class Modal extends Component<IModal> {
 
   open() {
     this.container.classList.add("modal_active");
+    document.addEventListener("keydown", this.escapeHandle);
   }
 
   close() {
     this.container.classList.remove("modal_active");
+    document.removeEventListener("keydown", this.escapeHandle);
   }
 }

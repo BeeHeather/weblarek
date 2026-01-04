@@ -30,7 +30,7 @@ export type TPayment = "online" | "cash" | null;
 
 export interface IOrderResponse {
     id: string;
-    status: string; 
+    total: number; 
 }
 
 export interface IOrder extends IBuyer{

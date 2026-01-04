@@ -3,13 +3,17 @@ import { Card } from "./Card";
 import { IProduct } from "../../../types";
 import { categoryMap } from "../../../utils/constants";
 
-export class PreviewCard extends Card<IProduct> {
+export type TPreviewCard = Pick<IProduct, 'title' | 'price' | 'image' | 'category'>;
+export interface ICardActions {
+  onClick: (event: MouseEvent) => void;
+}
+export class PreviewCard extends Card<TPreviewCard> {
   protected cardCategory: HTMLElement;
   protected cardImage: HTMLImageElement;
   protected cardText: HTMLElement;
   protected cardButton: HTMLButtonElement;
 
-  constructor(container: HTMLElement) {
+  constructor(container: HTMLElement, actions?: ICardActions) {
     super(container);
 
     this.cardCategory = ensureElement<HTMLElement>(
@@ -27,6 +31,10 @@ export class PreviewCard extends Card<IProduct> {
       ".card__button",
       this.container
     );
+
+    if (actions?.onClick) {
+      this.cardButton.addEventListener("click", actions.onClick);
+    }
   }
 
   set category(value: string) {
@@ -52,26 +60,5 @@ export class PreviewCard extends Card<IProduct> {
 
   set buttonDisabled(value: boolean) {
     this.cardButton.disabled = value;
-  }
-
-  render(data?: Partial<IProduct>): HTMLElement {
-    if (data) {
-      if (data.title !== undefined) {
-        this.title = data.title;
-      }
-      if (data.price !== undefined) {
-        this.price = data.price;
-      }
-      if (data.category !== undefined) {
-        this.category = data.category;
-      }
-      if (data.image !== undefined) {
-        this.image = data.image;
-      }
-      if (data.description !== undefined) {
-        this.description = data.description;
-      }
-    }
-    return this.container;
   }
 }

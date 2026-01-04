@@ -1,8 +1,12 @@
 import { Component } from "../../base/Component.ts";
-import { IProduct } from "../../../types";
 import { ensureElement } from "../../../utils/utils.ts";
 
-export abstract class Card<T = IProduct> extends Component<T> {
+export interface ICard {
+  title: string;
+  price: number | null;
+}
+
+export abstract class Card<T = ICard> extends Component<T> {
   protected cardTitle: HTMLElement;
   protected cardPrice: HTMLElement;
 

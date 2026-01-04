@@ -2,11 +2,12 @@ import { ensureElement } from "../../../utils/utils";
 import { Card } from "./Card";
 import { IProduct } from "../../../types";
 
+export type TBasketCard = Pick<IProduct, 'title' | 'price'> & { index: number };
 export interface ICardActions {
   onClick: (event: MouseEvent) => void;
 }
 
-export class BasketCard extends Card<IProduct> {
+export class BasketCard extends Card<TBasketCard> {
   protected deleteItem: HTMLButtonElement;
 
   constructor(container: HTMLElement, actions?: ICardActions) {
@@ -28,17 +29,5 @@ export class BasketCard extends Card<IProduct> {
       this.container
     );
     indexElement.textContent = String(value);
-  }
-
-  render(data?: Partial<IProduct>): HTMLElement {
-    if (data) {
-      if (data.title !== undefined) {
-        this.title = data.title;
-      }
-      if (data.price !== undefined) {
-        this.price = data.price;
-      }
-    }
-    return this.container;
   }
 }

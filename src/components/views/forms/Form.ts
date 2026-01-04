@@ -25,11 +25,9 @@ export abstract class Form<T> extends Component<T> {
     if (value) {
       const errorMessages = Object.values(value).filter((msg) => msg);
       this.errorsContainer.textContent = errorMessages.join(", ");
+    } else {
+      this.errorsContainer.textContent = "";
     }
-  }
-
-  clearErrors() {
-    this.errorsContainer.textContent = "";
   }
 
   set valid(value: boolean) {

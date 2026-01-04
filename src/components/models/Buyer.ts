@@ -19,19 +19,19 @@ export class Buyer {
   setData(data: Partial<IBuyer>): void {
     if (data.payment !== undefined) {
       this.payment = data.payment;
-      this.events.emit('buyer:changed', this.getData());
+      this.events.emit('buyer:changed');
     }
     if (data.email !== undefined) {
       this.email = data.email;
-      this.events.emit('buyer:changed', this.getData());
+      this.events.emit('buyer:changed');
     }
     if (data.phone !== undefined) {
       this.phone = data.phone;
-      this.events.emit('buyer:changed', this.getData());
+      this.events.emit('buyer:changed');
     }
     if (data.address !== undefined) {
       this.address = data.address;
-      this.events.emit('buyer:changed', this.getData());
+      this.events.emit('buyer:changed');
     }
   }
 

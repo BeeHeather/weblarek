@@ -43,11 +43,6 @@ export class Basket extends Component<IBasketData> {
 
     if (elements && elements.length > 0) {
       this.basketList.append(...elements);
-    } else {
-      const emptyMessage = document.createElement("div");
-      emptyMessage.textContent = "Корзина пуста";
-      emptyMessage.classList.add("basket__empty");
-      this.basketList.appendChild(emptyMessage);
     }
   }
 
