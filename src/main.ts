@@ -151,6 +151,11 @@ events.on("order:set", () => {
   const errors = buyerModel.validate();
   const isFormValid = !errors.payment && !errors.address;
 
+  const orderErrors = {
+    payment: errors.payment,
+    address: errors.address
+  } as Record<string, string>;
+
   const orderFormElement = orderForm.render({
     payment: buyerData.payment || "",
     address: buyerData.address || "",
@@ -159,7 +164,7 @@ events.on("order:set", () => {
 
   modal.render({ content: orderFormElement });
 
-  orderForm.errors = errors;
+  orderForm.errors = orderErrors;
   orderForm.valid = isFormValid;
   modal.open();
 });
@@ -178,13 +183,18 @@ events.on("buyer:changed", () => {
   const errors = buyerModel.validate();
   const isFormValid = !errors.payment && !errors.address;
 
+    const orderErrors = {
+    payment: errors.payment,
+    address: errors.address
+  } as Record<string, string>;
+
   orderForm.payment = buyerData.payment || "";
   orderForm.address = buyerData.address || "";
-  orderForm.errors = errors;
+  orderForm.errors = orderErrors;
   orderForm.valid = isFormValid;
 });
 
-// Отправка первой формы
+// Отправка второй формы
 events.on("contacts:set", () => {
   const buyerData = buyerModel.getData();
   const errors = buyerModel.validate();
@@ -206,7 +216,7 @@ events.on("contacts:set", () => {
 // Изменение контакных данных
 events.on("contacts:change", (data: { email?: string; phone?: string }) => {
   buyerModel.setData(data);
-
+  
   const errors = buyerModel.validate();
   const isFormValid = !errors.email && !errors.phone;
 
