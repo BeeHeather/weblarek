@@ -64,7 +64,11 @@ events.on("product:selected", () => {
   const isInCart = basketModel.isItemInCart(product.id);
   const previewCard = new PreviewCard(cloneTemplate(cardPreviewTemplate), {
     onClick: () => {
-      events.emit("preview:add-to-cart", product);
+      if (isInCart) {
+        events.emit("preview:remove-from-cart", product);
+      } else {
+        events.emit("preview:add-to-cart", product);
+      }
     }
   });
   
@@ -72,8 +76,8 @@ events.on("product:selected", () => {
     previewCard.buttonText = "Недоступно";
     previewCard.buttonDisabled = true;
   } else if (isInCart) {
-    previewCard.buttonText = "Уже в корзине";
-    previewCard.buttonDisabled = true;
+    previewCard.buttonText = "Удалить из корзины";
+    previewCard.buttonDisabled = false;
   } else {
     previewCard.buttonText = "В корзину";
     previewCard.buttonDisabled = false;
@@ -87,6 +91,11 @@ events.on("product:selected", () => {
 
 events.on("preview:add-to-cart", (product: IProduct) => {
   basketModel.addItem(product);
+  modal.close();
+});
+
+events.on("preview:remove-from-cart", (product: IProduct) => {
+  basketModel.removeItem(product);
   modal.close();
 });
 
@@ -117,27 +126,9 @@ events.on("basket:changed", () => {
 
 // Открытие корзины
 events.on("basket:open", () => {
-  const products = basketModel.getItems();
-  const total = basketModel.getTotalCost();
-  const count = basketModel.getTotalCount();
-
-  const basketCards = products.map((item, index) => {
-    const card = new BasketCard(cloneTemplate(cardBasketTemplate), {
-      onClick: () => {
-        events.emit("basket:item:delete", item);
-      }
-    });
-    card.index = index + 1;
-    return card.render(item);
-  });
-
-  modal.render({ 
-    content: basket.render({
-      items: basketCards,
-      total: total,
-      canCheckout: count > 0
-    })
-  });
+  modal.render({  
+    content: basket.render() 
+  }); 
   modal.open();
 });
 
